@@ -6,14 +6,15 @@ Recipes live in: recipe_htmls/ folder
 Back button links to: ../index.html
 
 I will paste my RECIPE_TEMPLATE.html file below — use this exactly as the base for all styling, layout and structure. Do not deviate from it.
-For each recipe please:
+For each recipe, follow these steps in order:
 
+Work out the base serving size — if the recipe explicitly states how many it serves, use that. If not, estimate a sensible yield based on the ingredients and portion sizes
+Always ask me how many servings I want it to yield before generating the HTML — e.g. "This recipe yields 4 serves. How many would you like it to yield?"
+Scale all ingredient quantities up or down to match my confirmed serving size
 Generate the complete HTML file based on the template I provide
-Estimate calories and macros per serve assuming ingredients purchased from Woolworths Australia
-Find a suitable free Unsplash image URL for the dish (format: https://images.unsplash.com/photo-XXXXX?w=600&q=80)
+Estimate calories and macros per serve assuming ingredients purchased from Woolworths Australia (scaled to the confirmed serving size)
 Assign a main protein tag (chicken, beef, pork, lamb, seafood, vegetarian, vegan, egg, tofu, turkey)
 Estimate total cook time
-Estimate a sensible number of servings based on the ingredients and quantities given — don't default to 4, use your judgement (e.g. a 500g mince recipe likely serves 4, a whole 1.5kg roast likely serves 6, a small pasta dish might serve 2)
 Give me the line to add to my index.html recipes array in this format:
 
 js{ title: "TITLE", file: "FILENAME.html", protein: "PROTEIN", time: "TIME", serves: X, cals: XXX },
