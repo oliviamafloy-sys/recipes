@@ -1,10 +1,194 @@
 <!DOCTYPE html>
-<html>
-<head><title>My Recipes</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Recipes</title>
+  <style>
+    :root {
+      --bg: #f6f4f1;
+      --card: #ffffff;
+      --text: #22201d;
+      --muted: #6f6a63;
+      --line: #e9e3dc;
+      --accent: #c66b4e;
+      --chip: #f7efe8;
+      --shadow: 0 12px 30px rgba(43,33,24,.08);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #f8f6f3 0%, #f3efe9 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .app { max-width: 1100px; margin: 0 auto; padding: 36px 20px 60px; }
+
+    /* Header */
+    .header { margin-bottom: 32px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--chip); color: var(--accent);
+      border: 1px solid #f0ded3; padding: 7px 14px;
+      border-radius: 999px; font-size: 13px; font-weight: 600;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      letter-spacing: -.03em; line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .subtitle { font-size: 16px; color: var(--muted); }
+
+    /* Search & Filters */
+    .controls {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    #search {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fcfaf7;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 14px;
+    }
+    #search:focus { border-color: var(--accent); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      padding: 6px 14px; font-size: 13px; font-weight: 500;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: #fcfaf7; color: var(--muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Count */
+    .count { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .card-tag {
+      display: inline-block; font-size: 12px; font-weight: 600;
+      padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
+    }
+    .tag-dinner   { background: #f7efe8; color: #8a4a2f; }
+    .tag-chicken  { background: #e8f0f7; color: #1a4a6e; }
+    .tag-vegetarian { background: #eaf3de; color: #3b6d11; }
+    .tag-breakfast { background: #faeeda; color: #854f0b; }
+    .tag-seafood  { background: #e1f5ee; color: #0f6e56; }
+    .tag-pasta    { background: #fbeaf0; color: #72243e; }
+    .tag-soup     { background: #eeedfe; color: #3c3489; }
+    .tag-salad    { background: #eaf3de; color: #27500a; }
+    .tag-dessert  { background: #fbeaf0; color: #993556; }
+    .tag-snack    { background: #f7efe8; color: #854f0b; }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .card-meta { font-size: 13px; color: var(--muted); }
+
+    .empty {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 20px; color: var(--muted); font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .app { padding: 20px 14px 40px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    }
+  </style>
+</head>
 <body>
-  <h1>My Recipe Collection</h1>
-  <ul>
-    <li><a href="recipes/butter-chicken.html">Butter Chicken</a></li>
-  </ul>
+  <main class="app">
+    <div class="header">
+      <div class="eyebrow">🍴 Recipe Collection</div>
+      <h1>My Recipes</h1>
+      <p class="subtitle">Home-cooked favourites, all in one place.</p>
+    </div>
+
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search recipes..." oninput="render()" />
+      <div class="filters" id="filters"></div>
+    </div>
+
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <script>
+    // ============================================================
+    // ADD YOUR RECIPES HERE
+    // Each recipe needs:
+    //   title   — display name
+    //   file    — filename inside recipe_htmls/ folder
+    //   tag     — category (dinner, chicken, vegetarian, breakfast,
+    //             seafood, pasta, soup, salad, dessert, snack)
+    //   time    — cook time as a string
+    //   serves  — number of servings
+    // ============================================================
+    const recipes = [
+      { title: "One Pan Butter Chicken", file: "one_pan_butter_chicken_recipe_app.html", tag: "dinner", time: "2 hr 30 min", serves: 4, cals: 750 },
+      // { title: "Pasta Carbonara", file: "pasta_carbonara.html", tag: "pasta", time: "30 min", serves: 2, cals: 620 },
+      // { title: "Prawn Tacos", file: "prawn_tacos.html", tag: "seafood", time: "20 min", serves: 3, cals: 410 },
+    ];
+
+    const allTags = ["all", ...new Set(recipes.map(r => r.tag))];
+    let activeTag = "all";
+
+    function renderFilters() {
+      document.getElementById("filters").innerHTML = allTags.map(t =>
+        `<span class="chip${activeTag === t ? " active" : ""}" onclick="setTag('${t}')">
+          ${t.charAt(0).toUpperCase() + t.slice(1)}
+        </span>`
+      ).join("");
+    }
+
+    function setTag(t) { activeTag = t; renderFilters(); render(); }
+
+    function render() {
+      const q = document.getElementById("search").value.toLowerCase();
+      const filtered = recipes.filter(r => {
+        const matchQ = !q || r.title.toLowerCase().includes(q);
+        const matchT = activeTag === "all" || r.tag === activeTag;
+        return matchQ && matchT;
+      });
+      document.getElementById("count").textContent =
+        filtered.length + " recipe" + (filtered.length !== 1 ? "s" : "");
+      document.getElementById("grid").innerHTML = filtered.length
+        ? filtered.map(r => `
+            <a class="card" href="recipe_htmls/${r.file}">
+              <span class="card-tag tag-${r.tag}">${r.tag}</span>
+              <p class="card-title">${r.title}</p>
+              <p class="card-meta">${r.time} &nbsp;·&nbsp; ${r.serves} serves &nbsp;·&nbsp; ${r.cals} kcal</p>
+            </a>`).join("")
+        : `<div class="empty">No recipes found. Try a different search.</div>`;
+    }
+
+    renderFilters();
+    render();
+  </script>
 </body>
 </html>
