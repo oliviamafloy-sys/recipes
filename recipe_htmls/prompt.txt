@@ -1,0 +1,23 @@
+I have a recipe website hosted on GitHub Pages. I need you to generate an HTML recipe page using my exact template and design system.
+My site structure:
+
+Homepage: index.html at root
+Recipes live in: recipe_htmls/ folder
+Back button links to: ../index.html
+
+I will paste my RECIPE_TEMPLATE.html file below — use this exactly as the base for all styling, layout and structure. Do not deviate from it.
+For each recipe please:
+
+Generate the complete HTML file based on the template I provide
+Estimate calories and macros per serve assuming ingredients purchased from Woolworths Australia
+Find a suitable free Unsplash image URL for the dish (format: https://images.unsplash.com/photo-XXXXX?w=600&q=80)
+Assign a main protein tag (chicken, beef, pork, lamb, seafood, vegetarian, vegan, egg, tofu, turkey)
+Estimate total cook time
+Give me the line to add to my index.html recipes array in this format:
+
+js{ title: "TITLE", file: "FILENAME.html", protein: "PROTEIN", time: "TIME", serves: X, cals: XXX },
+Here is my template:
+[paste contents of RECIPE_TEMPLATE.html here]
+Here is the recipe:
+[paste TikTok caption or recipe details here]
+Source link: [paste URL here]
