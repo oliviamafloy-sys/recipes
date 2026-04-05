@@ -97,28 +97,29 @@
     .card-tag {
       display: inline-block; font-size: 12px; font-weight: 600;
       padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
+      border: 1px solid transparent;
     }
-.tag-chicken          { background: #e8f0f7; color: #1a4a6e; }
+.tag-chicken          { background: #e8f0f7; color: #1a4a6e; border-color: #c5d8ec; }
 .tag-chicken::before          { content: '🍗 '; }
-.tag-beef             { background: #f7efe8; color: #8a4a2f; }
+.tag-beef             { background: #f7efe8; color: #8a4a2f; border-color: #f0ded3; }
 .tag-beef::before             { content: '🥩 '; }
-.tag-pork             { background: #fbeaf0; color: #72243e; }
+.tag-pork             { background: #fbeaf0; color: #72243e; border-color: #f5ccd9; }
 .tag-pork::before             { content: '🐷 '; }
-.tag-lamb             { background: #f7efe8; color: #854f0b; }
+.tag-lamb             { background: #f7efe8; color: #854f0b; border-color: #f0ded3; }
 .tag-lamb::before             { content: '🐑 '; }
-.tag-seafood          { background: #e1f5ee; color: #0f6e56; }
+.tag-seafood          { background: #e1f5ee; color: #0f6e56; border-color: #b2e4d4; }
 .tag-seafood::before          { content: '🐟 '; }
-.tag-vegetarian       { background: #eaf3de; color: #3b6d11; }
+.tag-vegetarian       { background: #eaf3de; color: #3b6d11; border-color: #c5dfa8; }
 .tag-vegetarian::before       { content: '🥦 '; }
-.tag-vegan            { background: #eaf3de; color: #27500a; }
+.tag-vegan            { background: #eaf3de; color: #27500a; border-color: #c5dfa8; }
 .tag-vegan::before            { content: '🌱 '; }
-.tag-egg              { background: #faeeda; color: #854f0b; }
+.tag-egg              { background: #faeeda; color: #854f0b; border-color: #f5dfa0; }
 .tag-egg::before              { content: '🥚 '; }
-.tag-tofu             { background: #eeedfe; color: #3c3489; }
+.tag-tofu             { background: #eeedfe; color: #3c3489; border-color: #cccaf7; }
 .tag-tofu::before             { content: '🫘 '; }
-.tag-turkey           { background: #f7efe8; color: #8a4a2f; }
+.tag-turkey           { background: #f7efe8; color: #8a4a2f; border-color: #f0ded3; }
 .tag-turkey::before           { content: '🦃 '; }
-.tag-leftover-chicken { background: #f0ede8; color: #5c4a32; }
+.tag-leftover-chicken { background: #f0ede8; color: #5c4a32; border-color: #ddd6cc; }
 .tag-leftover-chicken::before { content: '♻️ '; }
     .card-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .card-meta { font-size: 13px; color: var(--muted); }
@@ -126,9 +127,9 @@
       position: absolute;
       top: 14px; right: 14px;
       display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 600;
+      font-size: 12px; font-weight: 600;
       color: var(--accent); background: var(--chip);
-      border: 1px solid #f0ded3; padding: 3px 9px;
+      border: 1px solid #f0ded3; padding: 4px 10px;
       border-radius: 999px;
     }
 
