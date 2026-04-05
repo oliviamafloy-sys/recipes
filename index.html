@@ -168,12 +168,10 @@
       <div class="filters" id="filters"></div>
       <div class="sort-row">
         <span class="sort-label">Sort by</span>
-        <span class="chip active" id="sort-default" onclick="setSort('default')">Default</span>
+        <span class="chip active" id="sort-cooked-desc" onclick="setSort('cooked-desc')">Most cooked ↓</span>
+        <span class="chip" id="sort-cooked-asc" onclick="setSort('cooked-asc')">Least cooked ↑</span>
         <span class="chip" id="sort-cals-asc" onclick="setSort('cals-asc')">Calories ↑</span>
         <span class="chip" id="sort-cals-desc" onclick="setSort('cals-desc')">Calories ↓</span>
-        <span class="chip" id="sort-cooked-desc" onclick="setSort('cooked-desc')">Most cooked ↓</span>
-        <span class="chip" id="sort-cooked-asc" onclick="setSort('cooked-asc')">Least cooked ↑</span>
-
       </div>
     </div>
 
@@ -229,12 +227,12 @@
 
     const allTags = ["all", ...new Set(recipes.map(r => r.protein))];
     let activeTag = "all";
-    let activeSort = "default";
+    let activeSort = "cooked-desc";
     let cookCounts = {};
 
     function setSort(s) {
       activeSort = s;
-      ["default","cals-asc","cals-desc","cooked-desc","cooked-asc"].forEach(id => {
+      ["cooked-desc","cooked-asc","cals-asc","cals-desc"].forEach(id => {
         document.getElementById("sort-" + id).classList.toggle("active", id === s);
       });
       render();
