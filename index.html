@@ -163,7 +163,10 @@
     </div>
 
     <div class="controls">
-      <input id="search" type="text" placeholder="Search recipes..." oninput="render()" />
+      <input id="search" type="text" placeholder="Search by recipe name or ingredient…" oninput="render()" />
+      <p id="search-hint" style="font-size:12px;color:var(--muted);margin-top:6px;margin-bottom:0;display:none;">
+        🔍 Searching ingredients
+      </p>
 
       <div class="filters" id="filters"></div>
       <div class="sort-row">
@@ -191,45 +194,76 @@
     //   serves  — number of servings
     //   cals    — calories per serve
     // ============================================================
-    const recipes = [
-      { title: "One Pan Butter Chicken", file: "one_pan_butter_chicken.html", protein: "chicken", time: "2 hr 30 min", serves: 4, cals: 750 },  
-      { title: "Spicy Thai Coconut Meatballs", file: "spicy_thai_coconut_meatballs.html", protein: "pork", time: "35 min", serves: 4, cals: 540 },
-      { title: "Spicy Harissa Meatballs", file: "spicy_harissa_meatballs.html", protein: "beef", time: "45 min", serves: 4, cals: 495 },
-      { title: "Gochujang & Coconut Chicken", file: "gochujang_coconut_chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 615 },
-      { title: "Coconut & Lime Baked Cod", file: "coconut_lime_baked_cod.html", protein: "seafood", time: "35 min", serves: 2, cals: 640 },
-      { title: "Creamy Garlic & Herb Orzo with Chicken Thighs", file: "creamy_garlic_herb_orzo_chicken.html", protein: "chicken", time: "35 min", serves: 2, cals: 750 },
-      { title: "Coconut & Harissa Chicken Thighs", file: "coconut_harissa_chicken_thighs.html", protein: "chicken", time: "35 min", serves: 2, cals: 630 },
-      { title: "Chicken Mayo Sandwich", file: "chicken_mayo_sandwich.html", protein: "leftover-chicken", time: "10 min", serves: 1, cals: 0 },
-      { title: "Peanutty Coconutty Noodles with Crispy Chicken", file: "peanutty_coconutty_noodles.html", protein: "leftover-chicken", time: "25 min", serves: 2, cals: 690 },
-      { title: "One Pot Chicken & Rice Burritos", file: "one_pot_chicken_rice_burrito.html", protein: "chicken", time: "50 min", serves: 2, cals: 700 },
-      { title: "Sheet Pan Adana Kebabs with Cacik & Sumac Onion Salad", file: "adana_kebabs_cacik_sumac_salad.html", protein: "lamb", time: "30 min", serves: 2, cals: 755 },
-      { title: "High Protein Burger", file: "high_protein_burger.html", protein: "beef", time: "15 min", serves: 1, cals: 514 },
-      { title: "Bang-Bang Inspired Rice Noodle Salad", file: "bang_bang_rice_noodle_salad.html", protein: "chicken", time: "20 min", serves: 2, cals: 510 },
-      { title: "Bang Bang Shrimp", file: "bang_bang_shrimp.html", protein: "seafood", time: "40 min", serves: 2, cals: 435 },
-      { title: "Honey Lemon Garlic Chicken", file: "honey_lemon_garlic_chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 515 },
-      { title: "Sweet & Savory Chicken with Spicy Carbonara Brothy Rice", file: "sweet_savory_chicken_carbonara_brothy_rice.html", protein: "chicken", time: "40 min", serves: 2, cals: 465 },
-      { title: "Thai Beef Salad", file: "thai_beef_salad.html", protein: "beef", time: "20 min", serves: 2, cals: 350 },
-      { title: "Prawn Chipotle Bowls", file: "prawn_chipotle_bowls.html", protein: "seafood", time: "20 min", serves: 2, cals: 570 },
-      { title: "Curried Thai Beef with Peanut Sauce", file: "curried_thai_beef_peanut_sauce.html", protein: "beef", time: "20 min", serves: 2, cals: 450 },
-      { title: "Rosemary Chicken Meatballs & Tomato Orzo", file: "rosemary-chicken-meatballs-tomato-orzo.html", protein: "chicken", time: "45 mins", serves: 2, cals: 680 },
-      { title: "Vietnamese Caramelized Pork Bowls", file: "vietnamese-caramelized-pork-bowls.html", protein: "pork", time: "25 mins", serves: 2, cals: 590 },
-      { title: "Sticky Chicken & Broccoli Bowls with Spicy Mayo", file: "sticky-chicken-bowls.html", protein: "chicken", time: "40 mins", serves: 2, cals: 720 },
-      { title: "Vietnamese Lemongrass Chicken", file: "vietnamese-lemongrass-chicken.html", protein: "chicken", time: "20 mins", serves: 2, cals: 420 },
-      { title: "Creamy Coconut Prawn Curry with Jasmine Rice", file: "creamy-coconut-prawn-curry.html", protein: "seafood", time: "45 mins", serves: 2, cals: 680 },
-      { title: "Caramelized Soy Chicken in Garlic Ginger Broth with Rice", file: "caramelized-soy-chicken-broth.html", protein: "chicken", time: "45 mins", serves: 2, cals: 650 },
-      { title: "Thai Sweet Chilli Beef Bowls", file: "thai-sweet-chilli-beef-bowls.html", protein: "beef", time: "20 mins", serves: 2, cals: 580 },
-      { title: "Ground Beef Enchiladas", file: "ground-beef-enchiladas.html", protein: "beef", time: "40 mins", serves: 2, cals: 680 },
-      { title: "Creamy Tuscan Chicken", file: "creamy-tuscan-chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 620 },
-      { title: "Spicy Peanut Butter Noodles", file: "spicy-peanut-butter-noodles.html", protein: "chicken", time: "25 min", serves: 2, cals: 961 },
-      { title: "Green Goddess Chicken Salad Sandwich", file: "green-goddess-chicken-salad-sandwich.html", protein: "leftover-chicken", time: "10 min", serves: 1, cals: 380 },
-      { title: "Nando's Chicken & Halloumi Burger", file: "nandos-chicken-halloumi-burger.html", protein: "chicken", time: "25 min", serves: 2, cals: 635 },
-      { title: "Citrusy Lemon Butter Pan Fried Cod + Coconut Rice", file: "lemon-butter-pan-fried-cod-coconut-rice.html", protein: "seafood", time: "30 min", serves: 2, cals: 680 },
-      { title: "Grilled Maple Sriracha Chicken Bites Bowl", file: "maple-sriracha-chicken-bites-bowl.html", protein: "chicken", time: "40 min", serves: 2, cals: 750 },
-      
-      
-      // { title: "Pasta Carbonara", file: "pasta_carbonara.html", protein: "egg", time: "30 min", serves: 2, cals: 620 },
-      // { title: "Prawn Tacos", file: "prawn_tacos.html", protein: "seafood", time: "20 min", serves: 3, cals: 410 },
-    ];
+const recipes = [
+  { title: "One Pan Butter Chicken", file: "one_pan_butter_chicken.html", protein: "chicken", time: "2 hr 30 min", serves: 4, cals: 750,
+    ingredients: ["chicken thighs", "greek yoghurt", "cashews", "tomatoes", "cream", "ghee", "kasoori methi"] },
+  { title: "Spicy Thai Coconut Meatballs", file: "spicy_thai_coconut_meatballs.html", protein: "pork", time: "35 min", serves: 4, cals: 540,
+    ingredients: ["pork mince", "lite coconut milk", "red curry paste", "miso paste", "red pepper", "spinach", "spring onions", "Thai chillies"] },
+  { title: "Spicy Harissa Meatballs", file: "spicy_harissa_meatballs.html", protein: "beef", time: "45 min", serves: 4, cals: 495,
+    ingredients: ["beef mince", "harissa paste", "cherry tomatoes", "red pepper", "spinach", "light cream"] },
+  { title: "Gochujang & Coconut Chicken", file: "gochujang_coconut_chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 615,
+    ingredients: ["chicken thighs", "gochujang", "lite coconut milk", "red onion", "gochugaru"] },
+  { title: "Coconut & Lime Baked Cod", file: "coconut_lime_baked_cod.html", protein: "seafood", time: "35 min", serves: 2, cals: 640,
+    ingredients: ["cod", "coconut milk", "lime", "miso paste", "ginger", "coriander", "chilli oil"] },
+  { title: "Creamy Garlic & Herb Orzo with Chicken Thighs", file: "creamy_garlic_herb_orzo_chicken.html", protein: "chicken", time: "35 min", serves: 2, cals: 750,
+    ingredients: ["chicken thighs", "orzo", "herbed cream cheese", "spinach", "lemon", "thyme"] },
+  { title: "Coconut & Harissa Chicken Thighs", file: "coconut_harissa_chicken_thighs.html", protein: "chicken", time: "35 min", serves: 2, cals: 630,
+    ingredients: ["chicken thighs", "lite coconut milk", "harissa paste"] },
+  { title: "Chicken Mayo Sandwich", file: "chicken_mayo_sandwich.html", protein: "leftover-chicken", time: "10 min", serves: 1, cals: 0,
+    ingredients: ["leftover chicken", "walnuts", "dill", "pickled zucchini", "mayonnaise", "bread"] },
+  { title: "Peanutty Coconutty Noodles with Crispy Chicken", file: "peanutty_coconutty_noodles.html", protein: "leftover-chicken", time: "25 min", serves: 2, cals: 690,
+    ingredients: ["leftover chicken", "rice noodles", "peanut butter", "coconut cream", "cucumber", "spring onion", "chilli oil"] },
+  { title: "One Pot Chicken & Rice Burritos", file: "one_pot_chicken_rice_burrito.html", protein: "chicken", time: "50 min", serves: 2, cals: 700,
+    ingredients: ["chicken thighs", "chipotle peppers", "jasmine rice", "red pepper", "green pepper", "tortillas", "cheddar", "sour cream"] },
+  { title: "Sheet Pan Adana Kebabs with Cacik & Sumac Onion Salad", file: "adana_kebabs_cacik_sumac_salad.html", protein: "lamb", time: "30 min", serves: 2, cals: 755,
+    ingredients: ["lamb mince", "red pepper", "red pepper paste", "greek yoghurt", "cucumber", "dill", "flatbread"] },
+  { title: "High Protein Burger", file: "high_protein_burger.html", protein: "beef", time: "15 min", serves: 1, cals: 514,
+    ingredients: ["lean beef mince", "burger bun", "light cheese slices", "greek yoghurt", "lettuce", "tomato", "pickles"] },
+  { title: "Bang-Bang Inspired Rice Noodle Salad", file: "bang_bang_rice_noodle_salad.html", protein: "chicken", time: "20 min", serves: 2, cals: 510,
+    ingredients: ["chicken thighs", "rice noodles", "coleslaw", "cucumber", "peanuts", "sweet chilli sauce", "greek yoghurt", "sriracha", "lime"] },
+  { title: "Bang Bang Shrimp", file: "bang_bang_shrimp.html", protein: "seafood", time: "40 min", serves: 2, cals: 435,
+    ingredients: ["prawns", "buttermilk", "mayonnaise", "sweet chilli sauce", "sriracha", "lime"] },
+  { title: "Honey Lemon Garlic Chicken", file: "honey_lemon_garlic_chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 515,
+    ingredients: ["chicken thighs", "honey", "lemon", "mirin"] },
+  { title: "Sweet & Savory Chicken with Spicy Carbonara Brothy Rice", file: "sweet_savory_chicken_carbonara_brothy_rice.html", protein: "chicken", time: "40 min", serves: 2, cals: 465,
+    ingredients: ["chicken thighs", "honey", "gochujang", "light cream", "milk"] },
+  { title: "Thai Beef Salad", file: "thai_beef_salad.html", protein: "beef", time: "20 min", serves: 2, cals: 350,
+    ingredients: ["eye fillet steak", "purple cabbage", "cucumber", "cherry tomatoes", "red onion", "coriander", "mint", "crispy shallots", "lime"] },
+  { title: "Prawn Chipotle Bowls", file: "prawn_chipotle_bowls.html", protein: "seafood", time: "20 min", serves: 2, cals: 570,
+    ingredients: ["prawns", "corn", "avocado", "tomato", "jalapeño", "red onion", "greek yoghurt", "coriander", "lime"] },
+  { title: "Curried Thai Beef with Peanut Sauce", file: "curried_thai_beef_peanut_sauce.html", protein: "beef", time: "20 min", serves: 2, cals: 450,
+    ingredients: ["flank steak", "peanut butter", "red curry paste", "mango", "jalapeño", "coriander", "spring onion"] },
+  { title: "Rosemary Chicken Meatballs & Tomato Orzo", file: "rosemary-chicken-meatballs-tomato-orzo.html", protein: "chicken", time: "45 mins", serves: 2, cals: 680,
+    ingredients: ["chicken mince", "orzo", "parmesan", "rosemary", "crushed tomatoes", "passata"] },
+  { title: "Vietnamese Caramelized Pork Bowls", file: "vietnamese-caramelized-pork-bowls.html", protein: "pork", time: "25 mins", serves: 2, cals: 590,
+    ingredients: ["pork mince", "jasmine rice", "coriander", "spring onion", "lime"] },
+  { title: "Sticky Chicken & Broccoli Bowls with Spicy Mayo", file: "sticky-chicken-bowls.html", protein: "chicken", time: "40 mins", serves: 2, cals: 720,
+    ingredients: ["chicken breast", "broccoli", "jasmine rice", "honey", "sriracha", "mayonnaise", "sesame oil"] },
+  { title: "Vietnamese Lemongrass Chicken", file: "vietnamese-lemongrass-chicken.html", protein: "chicken", time: "20 mins", serves: 2, cals: 420,
+    ingredients: ["chicken thighs", "lemongrass", "oyster sauce", "lime", "coriander"] },
+  { title: "Creamy Coconut Prawn Curry with Jasmine Rice", file: "creamy-coconut-prawn-curry.html", protein: "seafood", time: "45 mins", serves: 2, cals: 680,
+    ingredients: ["prawns", "lite coconut milk", "red curry paste", "bell peppers", "spinach", "jasmine rice", "lime", "coriander"] },
+  { title: "Caramelized Soy Chicken in Garlic Ginger Broth with Rice", file: "caramelized-soy-chicken-broth.html", protein: "chicken", time: "45 mins", serves: 2, cals: 650,
+    ingredients: ["chicken thighs", "jasmine rice", "ginger", "spring onion"] },
+  { title: "Thai Sweet Chilli Beef Bowls", file: "thai-sweet-chilli-beef-bowls.html", protein: "beef", time: "20 mins", serves: 2, cals: 580,
+    ingredients: ["beef mince", "jasmine rice", "cashews", "sweet chilli sauce", "cucumber", "coriander", "lime"] },
+  { title: "Ground Beef Enchiladas", file: "ground-beef-enchiladas.html", protein: "beef", time: "40 mins", serves: 2, cals: 680,
+    ingredients: ["beef mince", "tortillas", "enchilada sauce", "cheddar", "sour cream"] },
+  { title: "Creamy Tuscan Chicken", file: "creamy-tuscan-chicken.html", protein: "chicken", time: "30 min", serves: 2, cals: 620,
+    ingredients: ["chicken thighs", "sun-dried tomatoes", "light cream", "parmesan", "parsley", "basmati rice"] },
+  { title: "Spicy Peanut Butter Noodles", file: "spicy-peanut-butter-noodles.html", protein: "chicken", time: "25 min", serves: 2, cals: 495,
+    ingredients: ["chicken breast", "udon noodles", "lite coconut milk", "peanut butter", "red curry paste", "mangetout", "coriander", "lime"] },
+  { title: "Green Goddess Chicken Salad Sandwich", file: "green-goddess-chicken-salad-sandwich.html", protein: "leftover-chicken", time: "10 min", serves: 1, cals: 380,
+    ingredients: ["leftover chicken", "avocado", "greek yoghurt", "mayonnaise", "parsley", "dill", "tarragon", "bread", "cucumber", "lettuce", "tomato"] },
+  { title: "Nando's Chicken & Halloumi Burger", file: "nandos-chicken-halloumi-burger.html", protein: "chicken", time: "25 min", serves: 2, cals: 635,
+    ingredients: ["chicken breast", "halloumi", "ciabatta", "chilli jam", "perinaise"] },
+  { title: "Citrusy Lemon Butter Pan Fried Cod + Coconut Rice", file: "lemon-butter-pan-fried-cod-coconut-rice.html", protein: "seafood", time: "30 min", serves: 2, cals: 680,
+    ingredients: ["cod", "lemon", "lite coconut milk", "jasmine rice", "coriander", "pickled red onions"] },
+  { title: "Grilled Maple Sriracha Chicken Bites Bowl", file: "maple-sriracha-chicken-bites-bowl.html", protein: "chicken", time: "40 min", serves: 2, cals: 750,
+    ingredients: ["chicken thighs", "maple syrup", "sriracha", "jasmine rice", "lite coconut milk", "mango", "avocado", "cherry tomatoes", "lime", "mayonnaise"] },
+  { title: "Garlic Soy Chicken Rice Bowls", file: "garlic-soy-chicken-rice-bowls.html", protein: "chicken", time: "20 min", serves: 2, cals: 420,
+  ingredients: ["chicken thighs", "jasmine rice", "honey", "ginger", "sesame oil", "cucumber", "spring onion", "coriander"] },
+];
 
     const allTags = ["all", ...new Set(recipes.map(r => r.protein))];
     let activeTag = "all";
@@ -255,9 +289,17 @@
     function setTag(t) { activeTag = t; renderFilters(); render(); }
 
     function render() {
-      const q = document.getElementById("search").value.toLowerCase();
+      const q = document.getElementById("search").value.toLowerCase().trim();
+      const hint = document.getElementById("search-hint");
+
+      // Show hint only when query doesn't match any title but does match ingredients
+      const anyTitleMatch = q && recipes.some(r => r.title.toLowerCase().includes(q));
+      hint.style.display = (q && !anyTitleMatch) ? "block" : "none";
+
       const filtered = recipes.filter(r => {
-        const matchQ = !q || r.title.toLowerCase().includes(q);
+        const matchTitle = r.title.toLowerCase().includes(q);
+        const matchIngredient = (r.ingredients || []).some(i => i.toLowerCase().includes(q));
+        const matchQ = !q || matchTitle || matchIngredient;
         const matchT = activeTag === "all" || r.protein === activeTag;
         return matchQ && matchT;
       });
