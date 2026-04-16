@@ -121,9 +121,9 @@ Use exactly one protein tag per recipe. Pick the best match.
 
 The `ingredients` array powers ingredient-based search on the homepage. Rules:
 
-**Include** main/hero ingredients: the protein, fresh produce, dairy, specialty sauces, and carbs.
+**Include** main/hero ingredients: the protein, fresh produce, dairy, specialty sauces, carbs, and fresh herbs.
 
-Examples: `chicken thighs`, `mango`, `avocado`, `halloumi`, `udon noodles`, `jasmine rice`, `coconut milk`, `sun-dried tomatoes`
+Examples: `chicken thighs`, `mango`, `avocado`, `halloumi`, `udon noodles`, `jasmine rice`, `coconut milk`, `sun-dried tomatoes`, `coriander`, `basil`, `dill`
 
 **Exclude** pantry staples assumed to be on hand year-round:
 salt · pepper · spices · dried herbs · soy sauce · fish sauce · olive oil · butter · flour · sugar · vinegar · garlic · onion · stock
