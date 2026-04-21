@@ -89,6 +89,13 @@ After the file, always output the line to add to the recipes array in `index.htm
 - **Do not commit or push to GitHub until the user explicitly approves.**
 - Wait for the user to confirm before proceeding with any git operations.
 
+### 11. After pushing, create a pull request automatically
+
+Once commits are pushed, always create a PR via the GitHub MCP tool (`mcp__github__create_pull_request`) without waiting to be asked:
+- **owner:** `olivia-ai-xx` · **repo:** `recipes` · **base:** `main`
+- **title:** `Add [Recipe Name]`
+- **body:** one-line summary with protein tag, serves, time, and kcal
+
 -----
 
 ## Template Rules
